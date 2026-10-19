@@ -18,6 +18,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IPlayerState PlayerState { get; private set; } = null!;
     [PluginService] internal static IDataManager DataManager { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
+    [PluginService] internal static IFramework Framework { get; private set; } = null!;
 
     private const string CommandName = "/dtp";
 
@@ -27,15 +28,23 @@ public sealed class Plugin : IDalamudPlugin
     private ConfigWindow ConfigWindow { get; init; }
     private MainWindow MainWindow { get; init; }
 
+    // 实验用，见 docs/experiment-explorer-mode.md。实验结束后连同这个字段一起删。
+    private ExperimentWindow ExperimentWindow { get; init; }
+
     public Plugin()
     {
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         ConfigWindow = new ConfigWindow(this);
         MainWindow = new MainWindow(this);
+        ExperimentWindow = new ExperimentWindow();
 
         WindowSystem.AddWindow(ConfigWindow);
         WindowSystem.AddWindow(MainWindow);
+        WindowSystem.AddWindow(ExperimentWindow);
+
+        // 实验用：每帧强制 IsExplorerMode。实验结束后删掉这一行和 OnFrameworkUpdate。
+        Framework.Update += OnFrameworkUpdate;
 
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
@@ -56,6 +65,8 @@ public sealed class Plugin : IDalamudPlugin
     // 否则热重载时会重复订阅，表现为窗口画两遍、命令触发两次。
     public void Dispose()
     {
+        Framework.Update -= OnFrameworkUpdate;
+
         PluginInterface.UiBuilder.Draw -= WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUi;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
@@ -64,12 +75,16 @@ public sealed class Plugin : IDalamudPlugin
 
         ConfigWindow.Dispose();
         MainWindow.Dispose();
+        ExperimentWindow.Dispose();
 
         CommandManager.RemoveHandler(CommandName);
     }
 
     private void OnCommand(string command, string args) => MainWindow.Toggle();
 
+    private void OnFrameworkUpdate(IFramework framework) => ExperimentWindow.Tick();
+
     public void ToggleConfigUi() => ConfigWindow.Toggle();
     public void ToggleMainUi() => MainWindow.Toggle();
+    public void ToggleExperimentUi() => ExperimentWindow.Toggle();
 }

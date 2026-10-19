@@ -35,6 +35,12 @@ public class MainWindow : Window, IDisposable
             plugin.ToggleConfigUi();
         }
 
+        ImGui.SameLine();
+        if (ImGui.Button("实验窗口"))
+        {
+            plugin.ToggleExperimentUi();
+        }
+
         ImGui.Separator();
 
         var player = Plugin.PlayerState;

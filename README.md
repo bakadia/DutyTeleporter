@@ -114,15 +114,18 @@ dotnet build -c Release -p:EnableWindowsTargeting=true
 ## 目录结构
 
 ```
-DutyTeleporter.slnx            # 解决方案
-DutyTeleporter/                # 插件项目
-├── DutyTeleporter.csproj      # 项目 + 插件元数据（自动生成 plugin.json）
-├── Plugin.cs                  # 入口：IDalamudPlugin 的构造与 Dispose
-├── Configuration.cs           # 存档，实现 IPluginConfiguration
-├── Windows/MainWindow.cs      # 主窗口
-├── Windows/ConfigWindow.cs    # 设置窗口
-└── images/icon.png            # 插件图标
-docs/design.md                 # 设计文档（目标、参考项目分析、技术路线、合规）
+DutyTeleporter.slnx                  # 解决方案
+DutyTeleporter/                      # 插件项目
+├── DutyTeleporter.csproj            # 项目 + 插件元数据（自动生成 plugin.json）
+├── Plugin.cs                        # 入口：IDalamudPlugin 的构造与 Dispose
+├── Configuration.cs                 # 存档，实现 IPluginConfiguration
+├── Windows/MainWindow.cs            # 主窗口
+├── Windows/ConfigWindow.cs          # 设置窗口
+├── Windows/ExperimentWindow.cs      # 实验用：强制 IsExplorerMode（有结论后可删）
+└── images/icon.png                  # 插件图标
+docs/design.md                       # 设计文档（目标、参考项目分析、技术路线、合规）
+docs/experiment-explorer-mode.md     # 自由探索服务端行为验证协议
+docs/explorer-mode-duties.md         # 103 个开放自由探索的副本清单
 ```
 
 ## 参考
