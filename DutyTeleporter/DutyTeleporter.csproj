@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+
+  <PropertyGroup>
+    <Version>0.0.0.1</Version>
+
+    <!--
+      下面这些字段由 Dalamud.NET.Sdk 自动写进打包时生成的 plugin.json，
+      也就是用户在 /xlplugins 里看到的内容。不要再手写 plugin.json。
+      提交到国服插件库时，检查组会看 Name / Punchline / Description 是否清楚。
+    -->
+    <Author>bakadia</Author>
+    <Name>DutyTeleporter</Name>
+    <Punchline>地图传送与自由探索，用来进副本看风景。</Punchline>
+    <Description>以观光为目的的地图传送插件。
+支持以太之光快速传送、当前地图内坐标传送，以及用官方的「自由探索」模式进入四人副本无怪观光。
+不含任何战斗辅助功能：不改移动速度、不做穿墙、不自动战斗。</Description>
+    <RepoUrl>https://github.com/bakadia/DutyTeleporter</RepoUrl>
+    <Tags>teleport;utility</Tags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 提交插件库时 images/icon.png 是必需的：64x64 ~ 512x512 -->
+    <None Update="images/icon.png" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+</Project>
